@@ -3,9 +3,10 @@ package com.jcaa.udec;
 import com.jcaa.udec.collections.adapter.persistence.memory.GuardarUsuarioAdapter;
 import com.jcaa.udec.collections.adapter.persistence.memory.ObtenerUsuariosAdapter;
 import com.jcaa.udec.collections.adapter.persistence.memory.RadioMemoryRepository;
+import com.jcaa.udec.collections.application.service.ActualizarRadioService;
 import com.jcaa.udec.collections.application.service.AgregarUsuarioService;
-import com.jcaa.udec.collections.application.service.BuscarRadioService;              // NUEVO
-import com.jcaa.udec.collections.application.service.ListarRadiosService;             // NUEVO
+import com.jcaa.udec.collections.application.service.BuscarRadioService;
+import com.jcaa.udec.collections.application.service.ListarRadiosService;
 import com.jcaa.udec.collections.application.service.ObtenerUsuariosService;
 import com.jcaa.udec.collections.application.service.RegistrarRadioService;
 import com.jcaa.udec.collections.application.service.ports.in.AgregarUsuarioUseCase;
@@ -30,15 +31,16 @@ public class Main {
         UsuarioControlador usuarioControlador =
                 new UsuarioControladorImpl(agregarUsuarioUseCase, obtenerUsuarioUseCase);
 
-        // --- Ensamblaje Radio (Create + Read) ---
+        // --- Ensamblaje Radio (Create + Read + Update) ---
         RadioMemoryRepository radioRepository = new RadioMemoryRepository();
         RegistrarRadioService registrarRadioService = new RegistrarRadioService(radioRepository);
-        BuscarRadioService buscarRadioService = new BuscarRadioService(radioRepository);       // NUEVO
-        ListarRadiosService listarRadiosService = new ListarRadiosService(radioRepository);    // NUEVO
+        BuscarRadioService buscarRadioService = new BuscarRadioService(radioRepository);
+        ListarRadiosService listarRadiosService = new ListarRadiosService(radioRepository);
+        ActualizarRadioService actualizarRadioService = new ActualizarRadioService(radioRepository, radioRepository);
 
-        // Constructor ahora recibe 3 argumentos
-        RadioController radioController =
-                new RadioController(registrarRadioService, buscarRadioService, listarRadiosService);
+        // Constructor ahora recibe 4 argumentos
+        RadioController radioController = new RadioController(
+                registrarRadioService, buscarRadioService, listarRadiosService, actualizarRadioService);
 
         // --- Scanner compartido ---
         Scanner scanner = new Scanner(System.in);
