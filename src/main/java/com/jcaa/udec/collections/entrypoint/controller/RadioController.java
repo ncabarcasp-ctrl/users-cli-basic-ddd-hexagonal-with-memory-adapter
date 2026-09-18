@@ -2,6 +2,7 @@ package com.jcaa.udec.collections.entrypoint.controller;
 
 import com.jcaa.udec.collections.application.service.ActualizarRadioService;
 import com.jcaa.udec.collections.application.service.BuscarRadioService;
+import com.jcaa.udec.collections.application.service.EliminarRadioService;
 import com.jcaa.udec.collections.application.service.ListarRadiosService;
 import com.jcaa.udec.collections.application.service.RegistrarRadioService;
 import com.jcaa.udec.collections.domain.core.model.Radio;
@@ -17,15 +18,18 @@ public class RadioController {
     private final BuscarRadioService buscarRadioService;
     private final ListarRadiosService listarRadiosService;
     private final ActualizarRadioService actualizarRadioService;
+    private final EliminarRadioService eliminarRadioService;
 
     public RadioController(RegistrarRadioService registrarRadioService,
                            BuscarRadioService buscarRadioService,
                            ListarRadiosService listarRadiosService,
-                           ActualizarRadioService actualizarRadioService) {
+                           ActualizarRadioService actualizarRadioService,
+                           EliminarRadioService eliminarRadioService) {
         this.registrarRadioService = registrarRadioService;
         this.buscarRadioService = buscarRadioService;
         this.listarRadiosService = listarRadiosService;
         this.actualizarRadioService = actualizarRadioService;
+        this.eliminarRadioService = eliminarRadioService;
     }
 
     public Radio registrar(String nombre, String frecuencia, String tipoTransmision) {
@@ -49,5 +53,9 @@ public class RadioController {
         Frecuencia frecuenciaRadio = new Frecuencia(Double.parseDouble(frecuencia.trim()));
         TipoTransmision tipo = TipoTransmision.desde(tipoTransmision);
         return actualizarRadioService.ejecutar(radioId, nombreRadio, frecuenciaRadio, tipo);
+    }
+
+    public void eliminar(String id) {
+        eliminarRadioService.ejecutar(new RadioId(id));
     }
 }

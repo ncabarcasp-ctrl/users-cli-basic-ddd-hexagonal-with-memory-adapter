@@ -5,6 +5,7 @@ import com.jcaa.udec.collections.domain.core.valueobject.RadioId;
 import com.jcaa.udec.collections.domain.port.out.ActualizarRadioPort;
 import com.jcaa.udec.collections.domain.port.out.BuscarRadioPorIdPort;
 import com.jcaa.udec.collections.domain.port.out.CrearRadioPort;
+import com.jcaa.udec.collections.domain.port.out.EliminarRadioPort;
 import com.jcaa.udec.collections.domain.port.out.ListarRadiosPort;
 
 import java.util.LinkedHashMap;
@@ -16,7 +17,8 @@ public class RadioMemoryRepository implements
         CrearRadioPort,
         BuscarRadioPorIdPort,
         ListarRadiosPort,
-        ActualizarRadioPort {
+        ActualizarRadioPort,
+        EliminarRadioPort {
 
     private final Map<String, Radio> almacenamiento = new LinkedHashMap<>();
 
@@ -40,5 +42,10 @@ public class RadioMemoryRepository implements
     public Radio actualizar(Radio radio) {
         almacenamiento.put(radio.id().valor(), radio);
         return radio;
+    }
+
+    @Override
+    public void eliminar(RadioId id) {
+        almacenamiento.remove(id.valor());
     }
 }

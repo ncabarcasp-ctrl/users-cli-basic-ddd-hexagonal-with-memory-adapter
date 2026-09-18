@@ -24,6 +24,7 @@ public class RadioCli {
             System.out.println("2. Buscar radio por id");
             System.out.println("3. Listar radios");
             System.out.println("4. Actualizar radio");
+            System.out.println("5. Eliminar radio");
             System.out.println("0. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
             String opcion = scanner.nextLine();
@@ -39,6 +40,9 @@ public class RadioCli {
                     break;
                 case "4":
                     actualizar();
+                    break;
+                case "5":
+                    eliminar();
                     break;
                 case "0":
                     salir = true;
@@ -98,6 +102,17 @@ public class RadioCli {
             System.out.println("Radio actualizada correctamente: " + radio);
         } catch (RuntimeException e) {
             System.out.println("No se pudo actualizar la radio: " + e.getMessage());
+        }
+    }
+
+    private void eliminar() {
+        try {
+            System.out.print("Id de la radio a eliminar: ");
+            String id = scanner.nextLine();
+            radioController.eliminar(id);
+            System.out.println("Radio eliminada correctamente.");
+        } catch (RuntimeException e) {
+            System.out.println("No se pudo eliminar la radio: " + e.getMessage());
         }
     }
 }
