@@ -23,6 +23,7 @@ public class RadioCli {
             System.out.println("1. Registrar radio");
             System.out.println("2. Buscar radio por id");
             System.out.println("3. Listar radios");
+            System.out.println("4. Actualizar radio");
             System.out.println("0. Volver al menú principal");
             System.out.print("Seleccione una opción: ");
             String opcion = scanner.nextLine();
@@ -35,6 +36,9 @@ public class RadioCli {
                     break;
                 case "3":
                     listar();
+                    break;
+                case "4":
+                    actualizar();
                     break;
                 case "0":
                     salir = true;
@@ -78,5 +82,22 @@ public class RadioCli {
             return;
         }
         radios.forEach(System.out::println);
+    }
+
+    private void actualizar() {
+        try {
+            System.out.print("Id de la radio a actualizar: ");
+            String id = scanner.nextLine();
+            System.out.print("Nuevo nombre: ");
+            String nombre = scanner.nextLine();
+            System.out.print("Nueva frecuencia: ");
+            String frecuencia = scanner.nextLine();
+            System.out.print("Nuevo tipo de transmisión (AM/FM): ");
+            String tipo = scanner.nextLine();
+            Radio radio = radioController.actualizar(id, nombre, frecuencia, tipo);
+            System.out.println("Radio actualizada correctamente: " + radio);
+        } catch (RuntimeException e) {
+            System.out.println("No se pudo actualizar la radio: " + e.getMessage());
+        }
     }
 }
