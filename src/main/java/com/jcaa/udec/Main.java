@@ -4,6 +4,8 @@ import com.jcaa.udec.collections.adapter.persistence.memory.GuardarUsuarioAdapte
 import com.jcaa.udec.collections.adapter.persistence.memory.ObtenerUsuariosAdapter;
 import com.jcaa.udec.collections.adapter.persistence.memory.RadioMemoryRepository;
 import com.jcaa.udec.collections.application.service.AgregarUsuarioService;
+import com.jcaa.udec.collections.application.service.BuscarRadioService;              // NUEVO
+import com.jcaa.udec.collections.application.service.ListarRadiosService;             // NUEVO
 import com.jcaa.udec.collections.application.service.ObtenerUsuariosService;
 import com.jcaa.udec.collections.application.service.RegistrarRadioService;
 import com.jcaa.udec.collections.application.service.ports.in.AgregarUsuarioUseCase;
@@ -28,10 +30,15 @@ public class Main {
         UsuarioControlador usuarioControlador =
                 new UsuarioControladorImpl(agregarUsuarioUseCase, obtenerUsuarioUseCase);
 
-        // --- Ensamblaje Radio ---
+        // --- Ensamblaje Radio (Create + Read) ---
         RadioMemoryRepository radioRepository = new RadioMemoryRepository();
         RegistrarRadioService registrarRadioService = new RegistrarRadioService(radioRepository);
-        RadioController radioController = new RadioController(registrarRadioService);
+        BuscarRadioService buscarRadioService = new BuscarRadioService(radioRepository);       // NUEVO
+        ListarRadiosService listarRadiosService = new ListarRadiosService(radioRepository);    // NUEVO
+
+        // Constructor ahora recibe 3 argumentos
+        RadioController radioController =
+                new RadioController(registrarRadioService, buscarRadioService, listarRadiosService);
 
         // --- Scanner compartido ---
         Scanner scanner = new Scanner(System.in);
