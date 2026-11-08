@@ -1,6 +1,8 @@
 package com.jcaa.udec.collections.domain.core.valueobject;
 
 import java.util.Objects;
+
+import com.jcaa.udec.collections.domain.core.exception.RadioDatoInvalidoException;
  
 /**
  * Value Object que representa la frecuencia de transmisión de una Radio
@@ -13,7 +15,7 @@ public final class Frecuencia {
  
     public Frecuencia(double valor) {
         if (valor <= 0) {
-            throw new IllegalArgumentException("La frecuencia debe ser un valor mayor que cero.");
+            throw new RadioDatoInvalidoException("La frecuencia debe ser un valor mayor que cero.");
         }
         this.valor = valor;
     }
